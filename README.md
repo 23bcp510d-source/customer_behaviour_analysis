@@ -1,32 +1,47 @@
-Customer Behavior Analysis – Data Analytics Project
-Choisis
-This project applies data analytics to examine customer behavior and detect trends and patterns. It is a full-fledged data analytics process from data exploration to creating and displaying dashboards.
-Dataset
-Customer dataset with behavior and transactional information
-# Data loaded and processed using Python
-Cleaned and ready for analysis or visualizing
-Technologies Employed
-Python -Datos de entrada, EDA y limpieza de datos
-SQL (PostgreSQL/MySQL/SQL Server) - Data Analysis
-"Power BI - Dashboard and visualizations"
-Jupyter Notebook
-Project Steps
+Customer Behaviour Analysis using K-Means Clustering
 
-The dataset loaded using a programming language (Python)
-Conducted exploratory data analysis (EDA)
-Cleaned and prepared the data
-Executed SQL queries for gaining insights
-Created an interactive dashboard for Power BI
-Creation of a report and presentation.
-Dashboard
-The Power BI dashboard offers relevant metrics, trends, and insights about the customer behavior.
-Results
-Identified customer behavior trends.
-Identified significant patterns, segments, and elements
-Added value by providing insights to make decisions based on data
-How to Run
-Clone the repository
-# Install required Python libraries
-import
-Run the Jupyter Notebook
-Open Power BI file to access the dashboard
+Project Overview:-
+This project analyzes customer shopping behavior and segments customers into different groups using K-Means Clustering. The goal is to identify patterns in purchasing behavior and help businesses understand their customers better.
+
+Dataset
+
+The dataset contains customer details such as:
+* Age
+* Gender
+* Purchase Amount (USD)
+* Review Rating
+* Category
+* Location
+* Payment Method
+
+Technologies Used:-
+* Python
+* Pandas
+* Matplotlib
+* Scikit-learn
+
+Methodology:-
+
+1. Data preprocessing (handling missing values)
+2. Feature selection (Age, Purchase Amount, Review Rating)
+3. Applying K-Means clustering
+4. Visualizing customer segments
+
+Results:-
+The model groups customers into 5 clusters based on their purchasing behavior:
+
+* High spending & high rating customers (loyal customers)
+* High spending & low rating (at-risk customers)
+* Low spending & high rating
+* Low spending & low rating
+* Average customers
+
+How to Run:-
+1. Install required libraries:
+   pip install -r requirements.txt
+
+2. Run the Jupyter Notebook:
+   jupyter notebook
+
+Conclusion:-
+This project demonstrates how machine learning can be used to understand customer behavior and improve business decision-making.
