@@ -45,7 +45,7 @@ The model segments customers into 5 clusters:
 
 ---
 
-## 💡 Business Insights
+## Business Insights
 - Loyal customers can be targeted for premium offers  
 - At-risk customers need better service or engagement  
 - Low-spending groups can be attracted using discounts and promotions  
