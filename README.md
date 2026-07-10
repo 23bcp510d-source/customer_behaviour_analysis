@@ -1,47 +1,52 @@
-Customer Behaviour Analysis using K-Means Clustering
+# Customer Behaviour Analysis using K-Means Clustering
 
-Project Overview:-
-This project analyzes customer shopping behavior and segments customers into different groups using K-Means Clustering. The goal is to identify patterns in purchasing behavior and help businesses understand their customers better.
+## Project Overview
+This project analyzes customer shopping behavior and segments customers into distinct groups using K-Means Clustering. The goal is to uncover patterns in purchasing behavior and help businesses make data-driven decisions.
 
-Dataset
+---
 
-The dataset contains customer details such as:
-* Age
-* Gender
-* Purchase Amount (USD)
-* Review Rating
-* Category
-* Location
-* Payment Method
+## Dataset
+The dataset includes customer-related attributes such as:
 
-Technologies Used:-
-* Python
-* Pandas
-* Matplotlib
-* Scikit-learn
+- Age  
+- Gender  
+- Purchase Amount (USD)  
+- Review Rating  
+- Category  
+- Location  
+- Payment Method  
 
-Methodology:-
+---
 
-1. Data preprocessing (handling missing values)
-2. Feature selection (Age, Purchase Amount, Review Rating)
-3. Applying K-Means clustering
-4. Visualizing customer segments
+## Technologies Used
+- Python  
+- Pandas  
+- Matplotlib  
+- Scikit-learn  
 
-Results:-
-The model groups customers into 5 clusters based on their purchasing behavior:
+---
 
-* High spending & high rating customers (loyal customers)
-* High spending & low rating (at-risk customers)
-* Low spending & high rating
-* Low spending & low rating
-* Average customers
+## Methodology
+1. Data preprocessing (handling missing values)  
+2. Feature selection (Age, Purchase Amount, Review Rating)  
+3. Applying K-Means clustering  
+4. Visualizing customer segments  
 
-How to Run:-
-1. Install required libraries:
-   pip install -r requirements.txt
+---
 
-2. Run the Jupyter Notebook:
-   jupyter notebook
+## Results
+The model segments customers into 5 clusters:
 
-Conclusion:-
-This project demonstrates how machine learning can be used to understand customer behavior and improve business decision-making.
+- High spending & high rating → Loyal customers  
+- High spending & low rating → At-risk customers  
+- Low spending & high rating → Potential loyal customers  
+- Low spending & low rating → Low engagement customers  
+- Average customers  
+
+---
+
+## 💡 Business Insights
+- Loyal customers can be targeted for premium offers  
+- At-risk customers need better service or engagement  
+- Low-spending groups can be attracted using discounts and promotions  
+- Helps businesses improve customer retention strategies  
