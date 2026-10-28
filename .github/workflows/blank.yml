@@ -3,14 +3,14 @@ name: Customer Behaviour Analysis CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "CBA-14-add-automated-tests"]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 jobs:
-  validate-project:
-    name: Validate Project Files
+  validate-and-test:
+    name: Validate Project and Run Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -22,11 +22,15 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Dependencies
+        run: python -m pip install --upgrade pip
+
       - name: Check Required Project Files
         run: |
           test -f customer_shopping_behavior.csv
           test -f customer_behaviour_query.sql
           test -f README.md
+          test -f tests/test_project.py
           echo "All required project files are present."
 
       - name: Validate CSV Structure
@@ -41,9 +45,7 @@ jobs:
               file.seek(0)
 
               try:
-                  dialect = csv.Sniffer().sniff(
-                      sample, delimiters=",\t;|"
-                  )
+                  dialect = csv.Sniffer().sniff(sample, delimiters=",\t;|")
               except csv.Error:
                   dialect = csv.excel_tab
 
@@ -51,27 +53,23 @@ jobs:
               header = next(reader, None)
 
               assert header, "CSV header is missing"
-              assert len(header) > 1, (
-                  f"Expected multiple columns, found {len(header)}"
-              )
+              assert len(header) > 1, "Expected multiple columns"
 
               rows = sum(1 for row in reader if row)
               assert rows > 0, "CSV contains no data rows"
 
               print(f"CSV validation passed: {rows} data rows")
               print(f"Columns detected: {len(header)}")
-              print(f"Delimiter detected: {repr(dialect.delimiter)}")
           PY
 
-      - name: Verify SQL File
-        run: |
-          test -s customer_behaviour_query.sql
-          echo "SQL file exists and is not empty."
+      - name: Run Automated Python Tests
+        run: python -m unittest discover -s tests -v
 
-      - name: Verify Project Documentation
-        run: |
-          test -s README.md
-          echo "Project documentation exists."
+      - name: Verify SQL File
+        run: test -s customer_behaviour_query.sql
+
+      - name: Verify Documentation
+        run: test -s README.md
 
       - name: CI Pipeline Successful
-        run: echo "Customer Behaviour Analysis checks passed."
+        run: echo "All project validations and tests passed."
