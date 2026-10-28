@@ -1,36 +1,53 @@
-# This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Customer Behaviour Analysis CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [main]
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  validate-project:
+    name: Validate Project Files
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Check Required Project Files
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          test -f customer_shopping_behavior.csv
+          test -f customer_behaviour_query.sql
+          test -f README.md
+          echo "All required project files are present."
+
+      - name: Validate CSV Structure
+        run: |
+          python - <<'PY'
+          import csv
+
+          with open("customer_shopping_behavior.csv",
+                    newline="", encoding="utf-8-sig") as file:
+              reader = csv.reader(file)
+              header = next(reader, None)
+
+              assert header, "CSV header is missing"
+              assert len(header) > 1, "CSV needs multiple columns"
+
+              rows = sum(1 for _ in reader)
+              assert rows > 0, "CSV contains no data rows"
+
+              print(f"CSV validation passed: {rows} data rows")
+              print(f"Columns: {len(header)}")
+          PY
+
+      - name: Verify SQL File
+        run: |
+          test -s customer_behaviour_query.sql
+          echo "SQL file exists and is not empty."
+
+      - name: CI Pipeline Successful
+        run: echo "Customer Behaviour Analysis checks passed."
