@@ -17,6 +17,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - name: Check Required Project Files
         run: |
           test -f customer_shopping_behavior.csv
@@ -29,25 +34,44 @@ jobs:
           python - <<'PY'
           import csv
 
-          with open("customer_shopping_behavior.csv",
-                    newline="", encoding="utf-8-sig") as file:
-              reader = csv.reader(file)
+          path = "customer_shopping_behavior.csv"
+
+          with open(path, newline="", encoding="utf-8-sig") as file:
+              sample = file.read(8192)
+              file.seek(0)
+
+              try:
+                  dialect = csv.Sniffer().sniff(
+                      sample, delimiters=",\t;|"
+                  )
+              except csv.Error:
+                  dialect = csv.excel_tab
+
+              reader = csv.reader(file, dialect)
               header = next(reader, None)
 
               assert header, "CSV header is missing"
-              assert len(header) > 1, "CSV needs multiple columns"
+              assert len(header) > 1, (
+                  f"Expected multiple columns, found {len(header)}"
+              )
 
-              rows = sum(1 for _ in reader)
+              rows = sum(1 for row in reader if row)
               assert rows > 0, "CSV contains no data rows"
 
               print(f"CSV validation passed: {rows} data rows")
-              print(f"Columns: {len(header)}")
+              print(f"Columns detected: {len(header)}")
+              print(f"Delimiter detected: {repr(dialect.delimiter)}")
           PY
 
       - name: Verify SQL File
         run: |
           test -s customer_behaviour_query.sql
           echo "SQL file exists and is not empty."
+
+      - name: Verify Project Documentation
+        run: |
+          test -s README.md
+          echo "Project documentation exists."
 
       - name: CI Pipeline Successful
         run: echo "Customer Behaviour Analysis checks passed."
